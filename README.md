@@ -1,1 +1,244 @@
-# Practica-RMI
+# <div align="center">
+
+# 
+
+# \# 🎓 SISTEMA DE GESTIÓN UNIVERSITARIA (RMI)
+
+# 
+
+# \### Trabajo Final - Desarrollo de Aplicaciones Distribuidas (DAD)
+
+# 
+
+# !\[Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge\&logo=openjdk\&logoColor=white)
+
+# !\[Eclipse](https://img.shields.io/badge/Eclipse-2C2255?style=for-the-badge\&logo=eclipse\&logoColor=white)
+
+# !\[GitKraken](https://img.shields.io/badge/GitKraken-179287?style=for-the-badge\&logo=gitkraken\&logoColor=white)
+
+# !\[RMI](https://img.shields.io/badge/Java\_RMI-Remote-red?style=for-the-badge)
+
+# !\[Status](https://img.shields.io/badge/Status-Entrega\_Enero-success?style=for-the-badge)
+
+# 
+
+# <br>
+
+# 
+
+# <p align="center">
+
+# &nbsp; <b>Una solución distribuida basada en invocación remota de objetos.</b><br>
+
+# &nbsp; Abstracción de red mediante Java RMI, uso de interfaces compartidas y persistencia en memoria.
+
+# </p>
+
+# 
+
+# </div>
+
+# 
+
+# ---
+
+# 
+
+# \## 📋 Descripción del Proyecto
+
+# 
+
+# \[cite\_start]Este proyecto implementa la segunda fase de la gestión universitaria, evolucionando de Sockets a \*\*Java RMI (Remote Method Invocation)\*\*. \[cite\_start]El objetivo es abstraer la complejidad de la comunicación por red, permitiendo que las sedes (Clientes) invoquen métodos directamente sobre un objeto remoto alojado en el servidor central\[cite: 213].
+
+# 
+
+# A diferencia de la versión anterior, aquí no se gestionan tramas de texto manuales; se comparte una \*\*Interfaz Remota\*\* (`IGestionUniversidad`) que actúa como contrato entre cliente y servidor.
+
+# 
+
+# ---
+
+# 
+
+# \## ⚙️ Arquitectura RMI
+
+# 
+
+# \[cite\_start]El sistema utiliza la arquitectura estándar de RMI, donde el servidor registra un objeto que implementa la lógica de negocio y el cliente obtiene una referencia (Stub) para usarlo como si fuera local\[cite: 217].
+
+# 
+
+# 
+
+# 
+
+# <div align="center">
+
+# 
+
+# | Componente | Puerto | Descripción |
+
+# | :---: | :---: | :--- |
+
+# | \*\*RMI Registry\*\* | `1099` | Servicio de directorio donde el servidor publica el objeto remoto. |
+
+# | \*\*Interfaz\*\* | `N/A` | Contrato común (`IGestionUniversidad`) conocido por cliente y servidor. |
+
+# | \*\*Servidor\*\* | `Dinámico` | Implementa la interfaz (`UnicastRemoteObject`) y gestiona los datos. |
+
+# | \*\*Cliente\*\* | `Dinámico` | Realiza `lookup` para obtener el Stub y llamar a los métodos. |
+
+# 
+
+# </div>
+
+# 
+
+# \### 🔄 Flujo de Ejecución
+
+# 1\.  \[cite\_start]\*\*Start:\*\* El servidor inicia el `LocateRegistry` en el puerto 1099\[cite: 227].
+
+# 2\.  \*\*Bind:\*\* El servidor instancia `GestionUniversidadImpl` y lo registra con un nombre (ej. "Universidad").
+
+# 3\.  \[cite\_start]\*\*Lookup:\*\* El cliente contacta con el registro y descarga el \*Stub\* del objeto remoto\[cite: 228].
+
+# 4\.  \*\*Invoke:\*\* El cliente llama a métodos como `addTitulacion()` de forma transparente.
+
+# 5\.  \*\*Response:\*\* El servidor ejecuta la lógica y devuelve el resultado (o lanza `RemoteException`).
+
+# 
+
+# ---
+
+# 
+
+# \## 🚀 Funcionalidades (Entrega Enero)
+
+# 
+
+# \[cite\_start]El sistema cumple con los requisitos de la entrega de enero, gestionando las siguientes entidades mediante el objeto remoto\[cite: 229]:
+
+# 
+
+# \### 🎓 Gestión de Títulos
+
+# \- \[x] \*\*Añadir Título:\*\* `addTitulacion(Titulacion t)`
+
+# \- \[x] \*\*Actualizar:\*\* `updateTitulacion(Titulacion t)`
+
+# \- \[x] \*\*Consultar:\*\* `getTitulacion(String id)`
+
+# \- \[x] \*\*Eliminar:\*\* `removeTitulacion(String id)`
+
+# \- \[x] \*\*Listar Todos:\*\* `listTitulaciones()`
+
+# 
+
+# \### 📚 Gestión de Asignaturas
+
+# \- \[x] \*\*Añadir Asignatura:\*\* `addAsignatura(Asignatura a)`
+
+# \- \[x] \*\*Vincular a Título:\*\* `addAsignaturaATitulo(...)`
+
+# \- \[x] \*\*Eliminar:\*\* `removeAsignatura(String id)`
+
+# \- \[x] \*\*Listar:\*\* `listAsignaturas()`
+
+# 
+
+# \### 📝 Gestión de Matrículas
+
+# \- \[x] \*\*Matricular Alumno:\*\* `addMatricula(Matricula m)`
+
+# \- \[x] \*\*Modificar:\*\* `updateMatricula(Matricula m)`
+
+# \- \[x] \*\*Consultar:\*\* `getMatricula(String id)`
+
+# 
+
+# ---
+
+# 
+
+# \## 🛠️ Tecnologías y Herramientas
+
+# 
+
+# <div align="center">
+
+# 
+
+# | Tecnología | Uso en el proyecto |
+
+# | :--- | :--- |
+
+# | \*\*Java RMI\*\* | Middleware para invocación remota de métodos. |
+
+# | \*\*Interfaces Java\*\* | \[cite\_start]Definición del contrato de servicios distribuidos\[cite: 250]. |
+
+# | \*\*UnicastRemoteObject\*\* | Exportación de objetos remotos puntuales. |
+
+# | \*\*Clases de Dominio\*\* | \[cite\_start]Librería `.jar` externa para interoperabilidad\[cite: 267]. |
+
+# | \*\*Java Collections\*\* | Gestión de datos en memoria (`ArrayList`). |
+
+# 
+
+# </div>
+
+# 
+
+# ---
+
+# 
+
+# \## 👥 Autores
+
+# 
+
+# <div align="center">
+
+# 
+
+# &nbsp; <table>
+
+# &nbsp;   <tr>
+
+# &nbsp;     <td align="center">
+
+# &nbsp;       <a href="https://github.com/EnriqueBDeL">
+
+# &nbsp;         <img src="https://github.com/EnriqueBDeL.png" width="100px;" alt="Foto Enrique"/><br>
+
+# &nbsp;         <sub><b>EnriqueBDeL</b></sub>
+
+# &nbsp;       </a>
+
+# &nbsp;     </td>
+
+# &nbsp;     <td align="center">
+
+# &nbsp;       <a href="https://github.com/Agata-gp">
+
+# &nbsp;         <img src="https://github.com/Agata-gp.png" width="100px;" alt="Foto Agata"/><br>
+
+# &nbsp;         <sub><b>Agata-gp</b></sub>
+
+# &nbsp;       </a>
+
+# &nbsp;     </td>
+
+# &nbsp;   </tr>
+
+# &nbsp; </table>
+
+# 
+
+# &nbsp; <br>
+
+# &nbsp; <i>\[ Desarrollado para la asignatura Desarrollo de Aplicaciones Distribuidas - UCAM ]</i>
+
+# &nbsp; 
+
+# </div>
+
