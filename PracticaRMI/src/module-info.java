@@ -7,7 +7,7 @@
 module PracticaRMI {
 	
 	requires java.rmi;
-	requires clasesdominiov2;	
+	requires clasesdominiov3;	
 	
 	exports edu.ucam.servidor to java.rmi;
 	
