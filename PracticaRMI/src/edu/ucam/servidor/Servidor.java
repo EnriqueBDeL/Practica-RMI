@@ -8,7 +8,6 @@ import java.rmi.registry.LocateRegistry;
 public class Servidor {
 
 	
-	
 	public static void main(String[] args) {
        
 		try {
