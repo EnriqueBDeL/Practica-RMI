@@ -26,14 +26,15 @@ public class GestionUniversidadImpl extends UnicastRemoteObject implements IGest
     }
 
     @Override
-    public void addTitulacion(Titulacion t) throws RemoteException {
+    public synchronized void addTitulacion(Titulacion t) throws RemoteException {
         if (t != null) {
             this.titulaciones.add(t);
         }
     }
 
     @Override
-    public void updateTitulacion(Titulacion tNuevo) throws RemoteException {
+    public synchronized void updateTitulacion(Titulacion tNuevo) throws RemoteException {
+        if (tNuevo == null) return;
         for (int i = 0; i < titulaciones.size(); i++) {
             if (titulaciones.get(i).getId().equals(tNuevo.getId())) {
                 titulaciones.set(i, tNuevo);
@@ -43,17 +44,17 @@ public class GestionUniversidadImpl extends UnicastRemoteObject implements IGest
     }
 
     @Override
-    public Titulacion getTitulacion(String id) throws RemoteException {
+    public synchronized Titulacion getTitulacion(String id) throws RemoteException {
+        if (id == null) return null;
         for (Titulacion t : titulaciones) {
-            if (t.getId().equals(id)) {
-                return t;
-            }
+            if (t.getId().equals(id)) return t;
         }
         return null;
     }
 
     @Override
-    public boolean removeTitulacion(String id) throws RemoteException {
+    public synchronized boolean removeTitulacion(String id) throws RemoteException {
+        if (id == null) return false;
         for (int i = 0; i < titulaciones.size(); i++) {
             if (titulaciones.get(i).getId().equals(id)) {
                 titulaciones.remove(i);
@@ -64,24 +65,25 @@ public class GestionUniversidadImpl extends UnicastRemoteObject implements IGest
     }
 
     @Override
-    public List<Titulacion> listTitulaciones() throws RemoteException {
+    public synchronized List<Titulacion> listTitulaciones() throws RemoteException {
         return new ArrayList<>(titulaciones);
     }
 
     @Override
-    public int countTitulaciones() throws RemoteException {
+    public synchronized int countTitulaciones() throws RemoteException {
         return titulaciones.size();
     }
 
     @Override
-    public void addAsignatura(Asignatura a) throws RemoteException {
+    public synchronized void addAsignatura(Asignatura a) throws RemoteException {
         if (a != null) {
             this.asignaturas.add(a);
         }
     }
 
     @Override
-    public Asignatura getAsignatura(String id) throws RemoteException {
+    public synchronized Asignatura getAsignatura(String id) throws RemoteException {
+        if (id == null) return null;
         for (Asignatura a : asignaturas) {
             if (a.getId().equals(id)) return a;
         }
@@ -89,7 +91,8 @@ public class GestionUniversidadImpl extends UnicastRemoteObject implements IGest
     }
 
     @Override
-    public boolean removeAsignatura(String id) throws RemoteException {
+    public synchronized boolean removeAsignatura(String id) throws RemoteException {
+        if (id == null) return false;
         for (int i = 0; i < asignaturas.size(); i++) {
             if (asignaturas.get(i).getId().equals(id)) {
                 asignaturas.remove(i);
@@ -100,55 +103,57 @@ public class GestionUniversidadImpl extends UnicastRemoteObject implements IGest
     }
 
     @Override
-    public List<Asignatura> listAsignaturas() throws RemoteException {
+    public synchronized List<Asignatura> listAsignaturas() throws RemoteException {
         return new ArrayList<>(asignaturas);
     }
 
     @Override
-    public void addAsignaturaATitulo(String idAsignatura, String idTitulacion) throws RemoteException {
+    public synchronized void addAsignaturaATitulo(String idAsignatura, String idTitulacion) throws RemoteException {
         Titulacion tit = getTitulacion(idTitulacion);
         Asignatura asig = getAsignatura(idAsignatura);
 
         if (tit != null && asig != null) {
-             tit.getAsignaturas().add(asig);
-        } else {
-            throw new RemoteException("Error: Título o Asignatura no encontrados.");
+            tit.getAsignaturas().add(asig);
         }
     }
 
     @Override
-    public void removeAsignaturaDeTitulo(String idAsignatura, String idTitulacion) throws RemoteException {
+    public synchronized void removeAsignaturaDeTitulo(String idAsignatura, String idTitulacion) throws RemoteException {
         Titulacion tit = getTitulacion(idTitulacion);
-        if (tit != null) {
-            List<Asignatura> listaAsig = (List<Asignatura>) tit.getAsignaturas();
-            
-            for (int i = 0; i < listaAsig.size(); i++) {
-                if (listaAsig.get(i).getId().equals(idAsignatura)) {
-                    listaAsig.remove(i);
-                    return;
+        
+        if (tit != null && tit.getAsignaturas() != null) {
+            Asignatura aBorrar = null;
+            for (Asignatura a : tit.getAsignaturas()) {
+                if (a.getId().equals(idAsignatura)) {
+                    aBorrar = a;
+                    break;
                 }
+            }
+            if (aBorrar != null) {
+                tit.getAsignaturas().remove(aBorrar);
             }
         }
     }
-    
+
     @Override
-    public List<Asignatura> listAsignaturasDeTitulo(String idTitulacion) throws RemoteException {
+    public synchronized List<Asignatura> listAsignaturasDeTitulo(String idTitulacion) throws RemoteException {
         Titulacion tit = getTitulacion(idTitulacion);
         if (tit != null) {
-            return (List<Asignatura>) tit.getAsignaturas(); 
+            return new ArrayList<>(tit.getAsignaturas());
         }
-        return new ArrayList<>(); 
+        return new ArrayList<>();
     }
 
     @Override
-    public void addMatricula(Matricula m) throws RemoteException {
+    public synchronized void addMatricula(Matricula m) throws RemoteException {
         if (m != null) {
             this.matriculas.add(m);
         }
     }
 
     @Override
-    public void updateMatricula(Matricula mNuevo) throws RemoteException {
+    public synchronized void updateMatricula(Matricula mNuevo) throws RemoteException {
+        if (mNuevo == null) return;
         for (int i = 0; i < matriculas.size(); i++) {
             if (matriculas.get(i).getId().equals(mNuevo.getId())) {
                 matriculas.set(i, mNuevo);
@@ -158,7 +163,8 @@ public class GestionUniversidadImpl extends UnicastRemoteObject implements IGest
     }
 
     @Override
-    public Matricula getMatricula(String id) throws RemoteException {
+    public synchronized Matricula getMatricula(String id) throws RemoteException {
+        if (id == null) return null;
         for (Matricula m : matriculas) {
             if (m.getId().equals(id)) return m;
         }
@@ -166,7 +172,8 @@ public class GestionUniversidadImpl extends UnicastRemoteObject implements IGest
     }
 
     @Override
-    public boolean removeMatricula(String id) throws RemoteException {
+    public synchronized boolean removeMatricula(String id) throws RemoteException {
+        if (id == null) return false;
         for (int i = 0; i < matriculas.size(); i++) {
             if (matriculas.get(i).getId().equals(id)) {
                 matriculas.remove(i);
