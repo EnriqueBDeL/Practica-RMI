@@ -23,7 +23,7 @@ public class Servidor {
             
         } catch (java.rmi.server.ExportException e) {
            
-        	System.err.println("Error: El puerto 1099 ya esta en uso.");
+        	System.err.println("Error: El puerto 1010 ya esta en uso.");
             System.err.println("Probablemente ya tengas el servidor ejecutandose en otra ventana.");
        
         } catch (Exception e) {

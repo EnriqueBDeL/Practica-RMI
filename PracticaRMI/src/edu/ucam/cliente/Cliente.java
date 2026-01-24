@@ -16,7 +16,7 @@ public class Cliente {
         Scanner sc = new Scanner(System.in);
 
         try {
-            IGestionUniversidad gestion = (IGestionUniversidad) Naming.lookup("//localhost/Universidad");
+            IGestionUniversidad gestion = (IGestionUniversidad) Naming.lookup("rmi://localhost:1010/ServidorUniversidad");
             System.out.println("Conectado al servidor correctamente.");
 
             int opcion = -1;
