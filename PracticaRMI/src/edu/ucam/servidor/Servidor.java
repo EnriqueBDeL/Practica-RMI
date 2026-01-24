@@ -10,11 +10,11 @@ public class Servidor {
 		try {
 			
 			
-        	LocateRegistry.createRegistry(1010);
+        	LocateRegistry.createRegistry(1010); 
 
             GestionUniversidadImpl gestion = new GestionUniversidadImpl();
 
-            Naming.rebind("rmi://localhost:1010/ServidorUniversidad", gestion);
+            Naming.rebind("rmi://localhost:1010/ServidorUniversidad", gestion); //Hemos utilizado la misma dirección que en el ejemplo de clase "EjemploUniversidadRMI.zip".
 
             
             
@@ -24,7 +24,6 @@ public class Servidor {
         } catch (java.rmi.server.ExportException e) {
            
         	System.err.println("Error: El puerto 1010 ya esta en uso.");
-            System.err.println("Probablemente ya tengas el servidor ejecutandose en otra ventana.");
        
         } catch (Exception e) {
            
