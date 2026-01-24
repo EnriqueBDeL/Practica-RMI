@@ -8,20 +8,30 @@ public class Servidor {
 	public static void main(String[] args) {
        
 		try {
-        	LocateRegistry.createRegistry(1099);
+			
+			
+        	LocateRegistry.createRegistry(1010);
 
             GestionUniversidadImpl gestion = new GestionUniversidadImpl();
 
-            Naming.rebind("//localhost/Universidad", gestion);
+            Naming.rebind("rmi://localhost:1010/ServidorUniversidad", gestion);
 
+            
+            
             System.out.println("Servidor RMI listo y esperando peticiones...");
 
+            
         } catch (java.rmi.server.ExportException e) {
-            System.err.println("Error: El puerto 1099 ya esta en uso.");
+           
+        	System.err.println("Error: El puerto 1099 ya esta en uso.");
             System.err.println("Probablemente ya tengas el servidor ejecutandose en otra ventana.");
+       
         } catch (Exception e) {
-            System.err.println("Error general en el servidor: " + e.getMessage());
-            e.printStackTrace(); 
+           
+        	System.err.println("Error general en el servidor: " + e.getMessage());
+           
+        	e.printStackTrace(); 
+        	
         }
     }
 }
