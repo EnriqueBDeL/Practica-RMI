@@ -115,6 +115,6 @@ El sistema cumple con los requisitos de la entrega de enero, gestionando las sig
   </table>
 
   <br>
-  <i>[ Desarrollado para la asignatura Desarrollo de Aplicaciones Distribuidas - UCAM ]</i>
+  <i>[ Desarrollado para la asignatura Desarrollo de Aplicaciones Distribuidas ]</i>
   
 </div>
