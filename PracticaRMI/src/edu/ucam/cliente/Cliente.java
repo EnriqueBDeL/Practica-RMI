@@ -10,6 +10,10 @@ import edu.ucam.domain.Matricula;
 import edu.ucam.domain.Titulacion;
 
 public class Cliente {
+	
+	private static boolean idValido(String id) {
+        return id != null && !id.trim().isEmpty();
+    }
 
     public static void main(String[] args) {
         
@@ -44,6 +48,7 @@ public class Cliente {
                 System.out.println("  0. Salir");
                 System.out.print("Seleccione una opción: ");
                 
+                
                 try {
                     String entrada = sc.nextLine();
                     opcion = Integer.parseInt(entrada);
@@ -57,6 +62,10 @@ public class Cliente {
                             String idT = sc.nextLine();
                             System.out.print("Nombre: "); 
                             String nomT = sc.nextLine();
+                            if (!idValido(idT)) {
+                                System.out.println("ID inválido.");
+                                break;
+                            }
                             Titulacion t = new Titulacion();
                             t.setId(idT); 
                             t.setNombre(nomT);
@@ -121,7 +130,10 @@ public class Cliente {
                             String idA = sc.nextLine();
                             System.out.print("Nombre: "); 
                             String nomA = sc.nextLine();
-                            
+                            if (!idValido(idA)) {
+                                System.out.println("ID inválido.");
+                                break;
+                            }
                             Asignatura a = new Asignatura();
                             
                             a.setId(idA); a.setNombre(nomA);
@@ -221,7 +233,10 @@ public class Cliente {
                             System.out.println(">> NUEVA MATRÍCULA");
                             System.out.print("ID Matrícula: "); 
                             String idM = sc.nextLine();
-                            
+                            if (!idValido(idM)) {
+                                System.out.println("ID inválido.");
+                                break;
+                            }
                             Matricula m = new Matricula();
                             
                             m.setId(idM);
